@@ -1,0 +1,79 @@
+func getByFruits(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+
+	for _, fruit := range FruitsList {
+		if fruit.ID == id {
+			json.NewEncoder(w).Encode(fruit)
+			return
+		}
+	}
+	http.Error(w, "Fruit not found", http.StatusNotFound)
+}
+
+func updateFruits(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != "PUT" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+
+	for index, fruit := range FruitsList {
+		if fruit.ID == id {
+			FruitsList = append(FruitsList[:index], FruitsList[index+1:]...)
+			var updatedFruit Fruits
+			err := json.NewDecoder(r.Body).Decode(&updatedFruit)
+			if err != nil {
+				http.Error(w, "Invalid data", http.StatusBadRequest)
+				return
+			}
+			updatedFruit.ID = id
+			FruitsList = append(FruitsList, updatedFruit)
+			json.NewEncoder(w).Encode(updatedFruit)
+			return
+		}
+	}
+
+	http.Error(w, "Fruit not found", http.StatusNotFound)
+}
+
+func deleteFruits(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != "DELETE" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+
+	for index, fruit := range FruitsList {
+		if fruit.ID == id {
+		FruitsList = append(FruitsList[:index], FruitsList[index+1:]...)
+		break
+	}
+	}
+	json.NewEncoder(w).Encode("Fruit Delete")
+
+}
