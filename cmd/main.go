@@ -14,19 +14,29 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
+		// Manager বানানো
+	manager := middleware.NewManager()
+
+	// Global Middleware (সব রিকোয়েস্টে চলবে)
+	manager.Use(middleware.Logger, middleware.Test)
+
 	// Sample data load
 	database.InitFruits()
 
-	// Middleware যুক্ত করে route handle
-	mux.Handle("GET /fruits", middleware.Logger(http.HandlerFunc(handlers.GetFruits)))
-	mux.Handle("POST /fruits", middleware.Logger(http.HandlerFunc(handlers.CreateFruits)))
-	mux.Handle("GET /fruits/{id}", middleware.Logger(http.HandlerFunc(handlers.GetById)))
-	mux.Handle("PUT /fruits-update/{id}", middleware.Logger(http.HandlerFunc(handlers.GetByUpdate)))
-	mux.Handle("DELETE /fruits-delete/{id}", middleware.Logger(http.HandlerFunc(handlers.GetByDelete)))
+	// Routes (middleware ছাড়াই আগে register করি)
+	mux.Handle("GET /fruits", manager.With(http.HandlerFunc(handlers.GetFruits)))
+	mux.Handle("POST /fruits",  manager.With(http.HandlerFunc(handlers.CreateFruits)))
+	mux.Handle("GET /fruits/{id}",  manager.With(http.HandlerFunc(handlers.GetById)))
+	mux.Handle("PUT /fruits-update/{id}",  manager.With(http.HandlerFunc(handlers.GetByUpdate)))
+	mux.Handle("DELETE /fruits-delete/{id}",  manager.With(http.HandlerFunc(handlers.GetByDelete)))
+
+
+	// Local Middleware (mux এর সব route এ Test ও চলবে)
+	// finalHandler := manager.With(mux, middleware.Logger, middleware.Test)
 
 	// CORS setup
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},  // http://localhost:5173
+		AllowedOrigins:   []string{"*"}, // http://localhost:5173
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type"},
 		AllowCredentials: true,
