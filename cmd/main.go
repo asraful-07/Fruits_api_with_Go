@@ -14,7 +14,7 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-		// Manager বানানো
+	// Manager বানানো
 	manager := middleware.NewManager()
 
 	// Global Middleware (সব রিকোয়েস্টে চলবে)
