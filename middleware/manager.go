@@ -39,3 +39,16 @@ func (mngr *Manager) With(handler http.Handler, middlewares ...Middleware) http.
 
 	return h
 }
+
+
+/*
+// --- Local middleware wrap (reverse with range) ---
+	for _, mw := range reverseMiddlewares(middlewares) {
+		h = mw(h)
+	}
+
+	// --- Global middleware wrap (reverse with range) ---
+	for _, mw := range reverseMiddlewares(mngr.globalMiddlewares) {
+		h = mw(h)
+	}
+*/
