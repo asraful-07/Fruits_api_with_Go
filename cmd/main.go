@@ -29,10 +29,7 @@ func main() {
 	mux.Handle("GET /fruits/{id}",  manager.With(http.HandlerFunc(handlers.GetById)))
 	mux.Handle("PUT /fruits-update/{id}",  manager.With(http.HandlerFunc(handlers.GetByUpdate)))
 	mux.Handle("DELETE /fruits-delete/{id}",  manager.With(http.HandlerFunc(handlers.GetByDelete)))
-
-
-	// Local Middleware (mux এর সব route এ Test ও চলবে)
-	// finalHandler := manager.With(mux, middleware.Logger, middleware.Test)
+	
 
 	// CORS setup
 	c := cors.New(cors.Options{
