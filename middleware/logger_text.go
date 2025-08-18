@@ -36,3 +36,13 @@ func Logger_Text(next http.Handler) http.Handler {
 			r.Method, r.URL.Path, rw.statusCode, time.Since(start), r.RemoteAddr)
 	})
 }
+
+// - - - - - - - - - - - - - - - - - - - - -
+
+// LocalTestMiddleware শুধু নির্দিষ্ট route এ কাজ করবে
+func LocalTestMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("👉 Local Middleware only for this route")
+		next.ServeHTTP(w, r)
+	})
+}
