@@ -13,7 +13,7 @@ func Logger(next http.Handler) http.Handler {
 
 		log.Printf("[Logger] %s %s", r.Method, r.URL.Path)
 
-		// মূল handler এ পাঠানো
+		// মূল handler এ বানানো
 		next.ServeHTTP(w, r)
 
 		log.Printf("[Logger] Completed in %v", time.Since(start))

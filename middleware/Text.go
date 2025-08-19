@@ -1,33 +1,33 @@
 package middleware
 
-// import "net/http"
+import "net/http"
 
-// type Middleware func(http.Handler) http.Handler
+type Middlewaree func(http.Handler) http.Handler
 
-// type Manager struct {
-// 	globalMiddlewares []Middleware
-// }
+type Managers struct {
+	globalMiddlewares []Middlewaree
+}
 
-// func NewManager() *Manager{
-// 	return &Manager{
-// 		globalMiddlewares: make([]Middleware, 0),
-// 	}
-// }
+func SoManager() *Managers {
+	return &Managers{
+		globalMiddlewares: make([]Middlewaree, 0),
+	}
+}
 
-// func (mngr *Manager) Use(Middlewares ...Middleware) *Manager{
-// 	mngr.globalMiddlewares = append(mngr.globalMiddlewares, Middlewares...)
-// 	return mngr
-// }
+func (mngr *Managers) Use(middlewares  ...Middlewaree) *Managers {
+	mngr.globalMiddlewares = append(mngr.globalMiddlewares, middlewares...)
+	return  mngr
+}
 
-// func (mngr *Manager) With(handler http.Handler,Middlewares ...Middleware)  http.Handler{
-// 	h := handler
+func (mngr *Managers) with(handler http.Handler, middlwares ...Middlewaree) http.Handler{
+	h := handler
 
-// 	for i := len(Middlewares)  - 1; i >= 0; i--  {
-//      h = Middlewares[i](h)
-// 	}
+	for i := len(middlwares) - 1; i >= 0; i-- {
+		h = middlwares[i](h)
+	} 
 
-// 	for i := len(mngr.globalMiddlewares) - 1; i >= 0; i-- {
-// 		h = mngr.globalMiddlewares[i](h)
-// 	}
-// 	return  h
-// }
+	for i := len(mngr.globalMiddlewares) -1; i >= 0; i-- {
+		h = mngr.globalMiddlewares[i](h)
+	}
+	return  h
+}
