@@ -18,7 +18,7 @@ func main() {
 	// Global Middleware (সব রিকোয়েস্টে চলবে)
 	manager.Use(
 		middleware.Logger,
-		middleware.Test,
+		// middleware.Test,
 		middleware.CORS, 
 	)
 

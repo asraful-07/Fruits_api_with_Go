@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -19,5 +20,6 @@ func CORS(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(w, r)
+		log.Printf("cors is okay")
 	})
 }
