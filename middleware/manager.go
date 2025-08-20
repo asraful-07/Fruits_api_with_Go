@@ -23,7 +23,7 @@ func (mngr *Manager) Use(middlewares ...Middleware) *Manager {
 	return mngr
 }
 
-// With - Local + Global middleware চেইন করবে
+// With - Local + Global middleware চেইন করে final handler return
 func (mngr *Manager) With(handler http.Handler, middlewares ...Middleware) http.Handler {
 	h := handler
 
