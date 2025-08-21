@@ -11,12 +11,10 @@ func Logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
-		log.Printf("[Logger] %s %s", r.Method, r.URL.Path)
-
 		// মূল handler এ বানানো
 		next.ServeHTTP(w, r)
 
-		log.Printf("[Logger] Completed in %v", time.Since(start))
+		log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
 	})
 }
 
