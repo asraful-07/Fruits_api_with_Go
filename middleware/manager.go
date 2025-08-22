@@ -31,17 +31,24 @@ func (mngr *Manager) With(handler http.Handler, middlewares ...Middleware) http.
 	for i := len(middlewares) - 1; i >= 0; i-- {
 		h = middlewares[i](h)
 	}
+	return h
+}
 
-	// Global middleware (reverse এ wrap)
+// WrapMux - শুধুমাত্র Global middleware wrap করবে
+func (mngr *Manager) WrapMux(handler http.Handler) http.Handler {
+	h := handler
+	// Global middleware (reverse order এ wrap হবে)
 	for i := len(mngr.globalMiddlewares) - 1; i >= 0; i-- {
 		h = mngr.globalMiddlewares[i](h)
 	}
-
 	return h
 }
 
 
+
 /*
+return mngr.WrapMux(h)
+
 // --- Local middleware wrap (reverse with range) ---
 	for _, middleware := range middlewares {
 		h = middleware(h)

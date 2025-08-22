@@ -19,7 +19,10 @@ func main() {
 	manager.Use(
 		middleware.Logger,
 		middleware.CORS, 
+		middleware.Preflight,
 	)
+    
+	wrappedMux := manager.WrapMux(mux)
 
 	// Sample data load
 	database.InitFruits()
@@ -32,5 +35,5 @@ func main() {
 	mux.Handle("DELETE /fruits-delete/{id}", manager.With(http.HandlerFunc(handlers.GetByDelete)))
 
 	fmt.Println("Server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Fatal(http.ListenAndServe(":8080", wrappedMux))
 }
