@@ -21,6 +21,7 @@ func loadConfig() {
 		fmt.Println("Failed to load the env variables")
 		os.Exit(1)
 	}
+	
 	version := os.Getenv("VERSION")
 	if version == "" {
 		fmt.Println("Version is required")

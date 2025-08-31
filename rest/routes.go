@@ -1,8 +1,8 @@
-package cmd
+package rest
 
 import (
-	"fruits-api/handlers"
-	"fruits-api/middleware"
+	"fruits-api/rest/handlers"
+	"fruits-api/rest/middleware"
 	"net/http"
 )
 

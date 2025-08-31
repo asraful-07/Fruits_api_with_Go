@@ -1,14 +1,16 @@
-package cmd
+package rest
 
 import (
 	"fmt"
+	"fruits-api/config"
 	"fruits-api/database"
-	"fruits-api/middleware"
+	"fruits-api/rest/middleware"
 	"log"
 	"net/http"
+	"strconv"
 )
 
-func Server() {
+func Start(cfg config.Config) {
 	mux := http.NewServeMux()
 
 	// Manager বানানো
@@ -16,9 +18,9 @@ func Server() {
 
 	// Global Middleware
 	manager.Use(
-		middleware.Logger,
-		middleware.CORS,
 		middleware.Preflight,
+		middleware.CORS,
+		middleware.Logger,
 	)
 
 	// Sample data load
@@ -30,6 +32,8 @@ func Server() {
 	// Middleware wrap
 	wrappedMux := manager.WrapMux(mux)
 
-	fmt.Println("Server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", wrappedMux))
+	addr := ":" + strconv.Itoa(int(cfg.HttpPort)) //type casting (inter to string)
+
+	fmt.Println("Server running on http://localhost:" + addr)
+	log.Fatal(http.ListenAndServe(addr, wrappedMux))
 }
