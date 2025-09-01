@@ -8,5 +8,8 @@ import (
 
 func GetFruits(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(global_product.FruitsList)
+	if err := json.NewEncoder(w).Encode(global_product.FruitsList); err != nil {
+    http.Error(w, "Failed to encode fruits list", http.StatusInternalServerError)
+    return
+}
 }
