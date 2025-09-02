@@ -8,6 +8,7 @@ type Managers struct {
 	globalMiddlewares []Middlewaree
 }
 
+// Manager বানানো
 func SoManager() *Managers {
 	return &Managers{
 		globalMiddlewares: make([]Middlewaree, 0),
