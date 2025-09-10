@@ -17,7 +17,16 @@ type User struct {
 	FullName     string `json:"fullName"`
 	Email        string `json:"email"`
 	Password     string `json:"password"`
-	IsShopeOwner string `json:"isShopeOwner"`
+	IsShopeOwner bool   `json:"isShopeOwner"`
 }
 
 var UserList []User
+
+func Find(email, pass string) *User {
+	for _, u := range UserList {
+		if u.Email == email && u.Password == pass {
+			return &u
+		}
+	}
+	return nil
+}
