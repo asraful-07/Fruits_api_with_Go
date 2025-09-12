@@ -15,4 +15,5 @@ func RegisterRoutes(mux *http.ServeMux, manager *middleware.Manager) {
 	mux.Handle("DELETE /fruits/{id}", manager.With(http.HandlerFunc(handlers.GetByDelete)))
 	mux.Handle("POST /users", manager.With(http.HandlerFunc(handlers.CreateUser)))
 	mux.Handle("POST /users/login",  manager.With(http.HandlerFunc(handlers.Login)))
+	mux.Handle("GET /users",  manager.With(http.HandlerFunc(handlers.GetLogin)))
 }
