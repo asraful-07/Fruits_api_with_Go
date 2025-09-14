@@ -1,4 +1,4 @@
-package handlers
+package user
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func GetLogin(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	json.NewEncoder(w).Encode(global_product.UserList);

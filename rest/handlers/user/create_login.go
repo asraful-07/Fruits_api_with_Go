@@ -1,4 +1,4 @@
-package handlers
+package user
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ type ReqUser struct {
 	Password string `json:"password"`
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var login ReqUser 

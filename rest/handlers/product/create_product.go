@@ -1,4 +1,4 @@
-package handlers
+package product
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func CreateFruits(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var fruits global_product.Fruits
 	if err := json.NewDecoder(r.Body).Decode(&fruits); err != nil {

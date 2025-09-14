@@ -1,4 +1,4 @@
-package handlers
+package product
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func GetFruits(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(global_product.FruitsList); err != nil {
     http.Error(w, "Failed to encode fruits list", http.StatusInternalServerError)

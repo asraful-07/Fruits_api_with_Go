@@ -4,13 +4,27 @@ import (
 	"fmt"
 	"fruits-api/config"
 	"fruits-api/database"
+	"fruits-api/rest/handlers/product"
+	"fruits-api/rest/handlers/user"
 	"fruits-api/rest/middleware"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-func Start(cfg config.Config) {
+type Server struct {
+	productHandler *product.Handler
+	userHandler *user.Handler
+}
+
+func NewServer(productHandler *product.Handler, userHandler *user.Handler) *Server {
+	return  &Server{
+		productHandler: productHandler,
+		userHandler: userHandler,
+	}
+}
+
+func (server *Server) Start(cfg config.Config) {
 	mux := http.NewServeMux()
 
 	// Manager বানানো
@@ -27,7 +41,8 @@ func Start(cfg config.Config) {
 	database.InitFruits()
 
 	// Route registration আলাদা ফাইল থেকে
-	RegisterRoutes(mux, manager)
+	server.productHandler.RegisterRoutes(mux, manager)
+	server.userHandler.RegisterUserRoutes(mux, manager)
 
 	// Middleware wrap
 	wrappedMux := manager.WrapMux(mux)
