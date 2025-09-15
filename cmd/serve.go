@@ -5,15 +5,18 @@ import (
 	"fruits-api/rest"
 	"fruits-api/rest/handlers/product"
 	"fruits-api/rest/handlers/user"
+	"fruits-api/rest/middleware"
 )
 
 func Serve() {
 	cfg := config.GetConfig()
 
-	productHandler := product.NewHandler()
+	middlewares := middleware.NewMiddlewares(cfg)
+
+	productHandler := product.NewHandler(middlewares)
 	userHandler := user.NewHandler()
 
-	server := rest.NewServer(productHandler, userHandler)
+	server := rest.NewServer(cfg, productHandler, userHandler)
 
-    server.Start(cfg)
+    server.Start()
 }

@@ -13,18 +13,20 @@ import (
 )
 
 type Server struct {
+	cfg *config.Config
 	productHandler *product.Handler
 	userHandler *user.Handler
 }
 
-func NewServer(productHandler *product.Handler, userHandler *user.Handler) *Server {
+func NewServer(cfg *config.Config, productHandler *product.Handler, userHandler *user.Handler) *Server {
 	return  &Server{
+		cfg: cfg,
 		productHandler: productHandler,
 		userHandler: userHandler,
 	}
 }
 
-func (server *Server) Start(cfg config.Config) {
+func (server *Server) Start() {
 	mux := http.NewServeMux()
 
 	// Manager বানানো
@@ -47,7 +49,7 @@ func (server *Server) Start(cfg config.Config) {
 	// Middleware wrap
 	wrappedMux := manager.WrapMux(mux)
 
-	addr := ":" + strconv.Itoa(int(cfg.HttpPort)) //type casting (inter to string)
+	addr := ":" + strconv.Itoa(int(server.cfg.HttpPort)) //type casting (inter to string)
 
 	fmt.Println("Server running on http://localhost:" + addr)
 	log.Fatal(http.ListenAndServe(addr, wrappedMux))
