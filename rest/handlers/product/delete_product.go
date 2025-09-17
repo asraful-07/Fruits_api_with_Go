@@ -2,24 +2,36 @@ package product
 
 import (
 	"encoding/json"
-	"fruits-api/global_product"
 	"net/http"
+	"strconv"
 )
 
+// Fruits Delete API
 func (h *Handler) GetByDelete(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	id := r.PathValue("id")
 
-	if id == "" {
+	// URL থেকে id পড়া
+	idStr := r.PathValue("id")
+	if idStr == "" {
 		http.Error(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
 
-	for index, fruit := range global_product.FruitsList {
-		if fruit.ID == id {
-			global_product.FruitsList = append(global_product.FruitsList[:index], global_product.FruitsList[index+1:]...)
-			break
-		}
+	// string → int convert
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
+		return
 	}
-	json.NewEncoder(w).Encode("Fruit Delete")
+
+	// repo call
+	err = h.fruitsRepo.Delete(id)
+	if err != nil {
+		http.Error(w, "Failed to delete fruit", http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Fruit deleted successfully",
+	})
 }
