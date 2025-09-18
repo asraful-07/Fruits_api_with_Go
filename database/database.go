@@ -2,7 +2,6 @@ package database
 
 import "fruits-api/global_product"
 
-
 func InitFruits() {
 	global_product.FruitsList = append(global_product.FruitsList, global_product.Fruits{ID: "1", Name: "Apple", Color: "Red", Image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=500", Quantity: 50, Price: 10.99, Description: "Crisp and juicy red apples, perfect for snacking."})
 	global_product.FruitsList = append(global_product.FruitsList, global_product.Fruits{ID: "2", Name: "Banana", Color: "Yellow", Image: "https://images.unsplash.com/photo-1528825871115-3581a5387919?w=500", Quantity: 60, Price: 9.99, Description: "Sweet and creamy bananas, rich in potassium."})
