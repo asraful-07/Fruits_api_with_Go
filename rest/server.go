@@ -3,7 +3,6 @@ package rest
 import (
 	"fmt"
 	"fruits-api/config"
-	"fruits-api/database"
 	"fruits-api/rest/handlers/product"
 	"fruits-api/rest/handlers/user"
 	"fruits-api/rest/middleware"
@@ -38,9 +37,6 @@ func (server *Server) Start() {
 		middleware.CORS,
 		middleware.Logger,
 	)
-
-	// Sample data load
-	database.InitFruits()
 
 	// Route registration আলাদা ফাইল থেকে
 	server.productHandler.RegisterRoutes(mux, manager)

@@ -3,6 +3,7 @@ package product
 import (
 	"encoding/json"
 	"fruits-api/repo"
+	"fruits-api/utils"
 	"net/http"
 )
 
@@ -23,7 +24,7 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 
 	var req ReqCreateFruits
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
 
@@ -40,9 +41,9 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 	// Repo এর Create method কল
 	createdFruit, err := h.fruitsRepo.Create(newFruit)
 	if err != nil {
-		http.Error(w, "Failed to create fruit", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Failed to create fruit")
 		return
 	}
 
-	json.NewEncoder(w).Encode(createdFruit)
+	utils.SendData(w, createdFruit, http.StatusCreated)
 }
