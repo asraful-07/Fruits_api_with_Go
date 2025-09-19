@@ -1,7 +1,7 @@
 package product
 
 import (
-	"encoding/json"
+	"fruits-api/utils"
 	"net/http"
 )
 
@@ -12,13 +12,11 @@ func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 	// repo থেকে list আনা
 	fruits, err := h.fruitsRepo.List()
 	if err != nil {
-		http.Error(w, "Failed to fetch fruits list", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
 		return
 	}
 
-	// JSON encode করে পাঠানো
-	if err := json.NewEncoder(w).Encode(fruits); err != nil {
-		http.Error(w, "Failed to encode fruits list", http.StatusInternalServerError)
-		return
-	}
+	
+	utils.SendData(w, fruits, http.StatusOK)
+	
 }

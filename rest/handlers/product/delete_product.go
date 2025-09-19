@@ -1,7 +1,7 @@
 package product
 
 import (
-	"encoding/json"
+	"fruits-api/utils"
 	"net/http"
 	"strconv"
 )
@@ -13,25 +13,23 @@ func (h *Handler) GetByDelete(w http.ResponseWriter, r *http.Request) {
 	// URL থেকে id পড়া
 	idStr := r.PathValue("id")
 	if idStr == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Missing id parameter")
 		return
 	}
 
 	// string → int convert
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest,"Invalid id")
 		return
 	}
 
 	// repo call
 	err = h.fruitsRepo.Delete(id)
 	if err != nil {
-		http.Error(w, "Failed to delete fruit", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError,"Failed to delete fruit")
 		return
 	}
 
-	json.NewEncoder(w).Encode(map[string]string{
-		"message": "Fruit deleted successfully",
-	})
+    utils.SendData(w, "Fruit deleted successfully", http.StatusOK)
 }

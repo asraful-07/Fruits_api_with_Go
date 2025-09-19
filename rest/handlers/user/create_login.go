@@ -16,19 +16,19 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	var login ReqUser
 	if err := json.NewDecoder(r.Body).Decode(&login); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
 
 	// Repo থেকে user খোঁজা
 	usr, err := h.userRepo.Find(login.Email, login.Password)
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
 
 	if usr == nil {
-		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+		utils.SendError(w, http.StatusUnauthorized, "Invalid credentials")
 		return
 	}
 
@@ -38,13 +38,9 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		Email:    usr.Email,
 	})
 	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
 
-	// Response
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"user":  usr,
-		"token": accessToken,
-	})
+	utils.SendData(w, accessToken, http.StatusCreated)
 }

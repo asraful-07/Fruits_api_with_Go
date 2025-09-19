@@ -47,6 +47,6 @@ func (server *Server) Start() {
 
 	addr := ":" + strconv.Itoa(int(server.cfg.HttpPort)) //type casting (inter to string)
 
-	fmt.Println("Server running on http://localhost:" + addr)
+	fmt.Println("Server running on http://localhost" + addr)
 	log.Fatal(http.ListenAndServe(addr, wrappedMux))
 }

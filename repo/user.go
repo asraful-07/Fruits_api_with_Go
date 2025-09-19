@@ -26,7 +26,6 @@ func NewUserRepo() UserRepo {
 func (r *userRepo) Create(user User) (*User, error) {
 	// auto ID generate
 	user.ID = len(r.UserList) + 1
-
 	r.UserList = append(r.UserList, user)
 	return &user, nil
 }
@@ -40,3 +39,9 @@ func (r *userRepo) Find(email, pass string) (*User, error) {
 	}
 	return nil, nil
 }
+
+// for _, u := range UserList {
+// 		if u.Email == email && u.Password == pass {
+// 			return &u
+// 		}
+// 	}

@@ -6,7 +6,7 @@ import (
 )
 
 // Success response
-func SendData(w http.ResponseWriter, statusCode int, data interface{}) {
+func SendData(w http.ResponseWriter, data interface{}, statusCode int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
@@ -20,11 +20,10 @@ func SendError(w http.ResponseWriter, statusCode int, msg string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
-	resp := map[string]string{"error": msg}
-	json.NewEncoder(w).Encode(resp)
+	json.NewEncoder(w).Encode(msg);
 }
 
-// func SendData(w http.ResponseWriter, r *http.Request) {
+// func SendData(w http.ResponseWriter, data interface{}, statusCode int) {
 // 	w.WriteHeader(StatusCode)
 // 	encoder := json.NewEncoder(w)
 // 	encoder.Encode(data)

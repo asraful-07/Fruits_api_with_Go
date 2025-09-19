@@ -3,6 +3,7 @@ package user
 import (
 	"encoding/json"
 	"fruits-api/repo"
+	"fruits-api/utils"
 	"net/http"
 )
 
@@ -20,7 +21,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	var req ReqCreateUser
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
 
@@ -33,10 +34,9 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	createdUser, err := h.userRepo.Create(user)
 	if err != nil {
-		http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Failed to create user")
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(createdUser)
+	utils.SendData(w, createdUser, http.StatusCreated)
 }

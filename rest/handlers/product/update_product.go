@@ -3,6 +3,7 @@ package product
 import (
 	"encoding/json"
 	"fruits-api/repo"
+	"fruits-api/utils"
 	"net/http"
 	"strconv"
 )
@@ -24,21 +25,21 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 	// URL থেকে id পড়া
 	idStr := r.PathValue("id")
 	if idStr == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Missing id parameter")
 		return
 	}
 
 	// string → int convert
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid id")
 		return
 	}
 
 	// Request body decode
 	var req ReqUpdateFruits
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid JSON")
 		return
 	}
 
@@ -56,15 +57,16 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 	// Repo update call
 	fruit, err := h.fruitsRepo.Update(updatedFruit)
 	if err != nil {
-		http.Error(w, "Failed to update fruit", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError,"Failed to update fruit")
 		return
 	}
 
 	if fruit == nil {
-		http.Error(w, "Fruit not found", http.StatusNotFound)
+		utils.SendError(w,  http.StatusNotFound, "Fruit not found",)
 		return
 	}
 
 	// JSON encode response
-	json.NewEncoder(w).Encode(fruit)
+	utils.SendData(w, "Successfully updated data", http.StatusOK)
+	
 }

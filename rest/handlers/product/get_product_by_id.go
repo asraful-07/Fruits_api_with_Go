@@ -1,7 +1,7 @@
 package product
 
 import (
-	"encoding/json"
+	"fruits-api/utils"
 	"net/http"
 	"strconv"
 )
@@ -13,32 +13,29 @@ func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 	// URL থেকে id পড়া
 	idStr := r.PathValue("id")
 	if idStr == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Missing id parameter")
 		return
 	}
 
 	// string → int convert
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
+		utils.SendError(w, http.StatusBadRequest, "Invalid id")
 		return
 	}
 
 	// repo থেকে fruit আনো
 	fruit, err := h.fruitsRepo.Get(id)
 	if err != nil {
-		http.Error(w, "Failed to fetch fruit", http.StatusInternalServerError)
+		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruit")
 		return
 	}
 
 	if fruit == nil {
-		http.Error(w, "Fruit not found", http.StatusNotFound)
+		utils.SendError(w, http.StatusNotFound, "Fruit not found")
 		return
 	}
 
-	// JSON এ encode করে response
-	if err := json.NewEncoder(w).Encode(fruit); err != nil {
-		http.Error(w, "Failed to encode fruit", http.StatusInternalServerError)
-		return
-	}
+	utils.SendData(w, fruit, http.StatusOK)
+	
 }

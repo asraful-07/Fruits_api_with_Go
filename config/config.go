@@ -63,7 +63,7 @@ func loadConfig() {
 
 func GetConfig() *Config {
 	if configuration == nil {
-		// first time
+	// first time lazy loading
 	loadConfig()
 	}
 	return configuration
