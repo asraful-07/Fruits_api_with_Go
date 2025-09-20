@@ -20,7 +20,7 @@ func Serve() {
 	fruitsRepo := repo.NewFruitsRepo()
 	productHandler := product.NewHandler(middlewares, fruitsRepo)
 
-	server := rest.NewServer(cfg, productHandler, userHandler)
+	server := rest.NewServer(cfg, userHandler, productHandler)
    
 	server.Start()
 }

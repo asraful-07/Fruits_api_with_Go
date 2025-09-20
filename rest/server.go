@@ -13,15 +13,15 @@ import (
 
 type Server struct {
 	cfg *config.Config
-	productHandler *product.Handler
 	userHandler *user.Handler
+	productHandler *product.Handler
 }
 
-func NewServer(cfg *config.Config, productHandler *product.Handler, userHandler *user.Handler) *Server {
+func NewServer(cfg *config.Config, userHandler *user.Handler, productHandler *product.Handler) *Server {
 	return  &Server{
 		cfg: cfg,
-		productHandler: productHandler,
 		userHandler: userHandler,
+		productHandler: productHandler,
 	}
 }
 
