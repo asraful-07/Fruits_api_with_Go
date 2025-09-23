@@ -15,7 +15,13 @@ import (
 func Serve() {
 	cfg := config.GetConfig()
 
-	dbCon, err := db.NecConnection() 
+	dbCon, err := db.NecConnection(cfg.DB) 
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = db.MigrateDB(dbCon, "./migrations")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -26,7 +32,7 @@ func Serve() {
 
 	middlewares := middleware.NewMiddlewares(cfg)
 
-	fruitsRepo := repo.NewFruitsRepo()
+	fruitsRepo := repo.NewFruitsRepo(dbCon)
 	productHandler := product.NewHandler(middlewares, fruitsRepo)
 
 	server := rest.NewServer(cfg, userHandler, productHandler)

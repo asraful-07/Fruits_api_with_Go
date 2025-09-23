@@ -1,1 +1,8 @@
 .env
+
+github.com/jmoiron/sqlx v1.4.0 // indirect  database sql jono
+github.com/joho/godotenv v1.5.1 // indirect dotenv jono
+github.com/lib/pq v1.10.9 // indirect   data base connnect somoy
+go get github.com/golang-migrate/migrate/v4 //indirect migrate jono 
+/
+go get github.com/rubenv/sql-migrate/... //indirect ota kaj na korle ata
