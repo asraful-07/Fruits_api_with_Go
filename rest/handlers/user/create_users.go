@@ -2,7 +2,7 @@ package user
 
 import (
 	"encoding/json"
-	"fruits-api/repo"
+	"fruits-api/domain"
 	"fruits-api/utils"
 	"net/http"
 )
@@ -25,14 +25,16 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := repo.User{
+	// Map request data to domain.User
+	newUser := domain.User{
 		FullName:     req.FullName,
 		Email:        req.Email,
-		Password:     req.Password,
+		Password:     req.Password,  
 		IsShopeOwner: req.IsShopeOwner,
 	}
 
-	createdUser, err := h.userRepo.Create(user)
+	// Call service layer
+	createdUser, err := h.svc.Create(newUser)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to create user")
 		return

@@ -22,7 +22,7 @@ func GetConnectionString(cfg *config.DBConfig) string {
 // return  "user=postgres password=Rahat@go host=localhost port=5432 dbname=ecommerce sslmode=disable"
 
 
-func NecConnection(cfg *config.DBConfig) (*sqlx.DB, error) {
+func NewConnection(cfg *config.DBConfig) (*sqlx.DB, error) {
 	dbSource := GetConnectionString(cfg)
 	dbCon, err := sqlx.Connect("postgres", dbSource)
 	if err != nil {

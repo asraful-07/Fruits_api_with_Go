@@ -20,8 +20,8 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Repo থেকে user খোঁজা
-	usr, err := h.userRepo.Find(login.Email, login.Password)
+	// Repo Find To user 
+	usr, err := h.svc.Find(login.Email, login.Password)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Internal server error")
 		return

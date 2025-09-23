@@ -2,21 +2,14 @@ package repo
 
 import (
 	"database/sql"
+	"fruits-api/domain"
+	"fruits-api/user"
 
 	"github.com/jmoiron/sqlx"
 )
 
-type User struct {
-	ID           int    `db:"id" json:"id"`
-	FullName     string `db:"full_name" json:"fullName"`
-	Email        string `db:"email" json:"email"`
-	Password     string `db:"password" json:"password"`
-	IsShopeOwner bool   `db:"is_shope_owner" json:"isShopeOwner"`
-}
-
 type UserRepo interface {
-	Create(u User) (*User, error)
-	Find(email, pass string) (*User, error)
+	user.UserRepo
 }
 
 type userRepo struct {
@@ -24,11 +17,11 @@ type userRepo struct {
 }
 
 func NewUserRepo(db *sqlx.DB) UserRepo {
-	return &userRepo{db: db}
+	return &userRepo{db: db} 
 }
 
 // Create user
-func (r *userRepo) Create(user User) (*User, error) {
+func (r *userRepo) Create(user domain.User) (*domain.User, error) {
 	query := `
 		INSERT INTO users (full_name, email, password, is_shope_owner)
 		VALUES (:full_name, :email, :password, :is_shope_owner)
@@ -51,8 +44,8 @@ func (r *userRepo) Create(user User) (*User, error) {
 }
 
 // Find user by email & password
-func (r *userRepo) Find(email, pass string) (*User, error) {
-	var user User
+func (r *userRepo) Find(email, pass string) (*domain.User, error) {
+	var user domain.User
 	query := `
 		SELECT id, full_name, email, password, is_shope_owner
 		FROM users
