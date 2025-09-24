@@ -25,7 +25,7 @@ func (h *Handler) GetByDelete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// repo call
-	err = h.fruitsRepo.Delete(id)
+	err = h.svc.Delete(id)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError,"Failed to delete fruit")
 		return

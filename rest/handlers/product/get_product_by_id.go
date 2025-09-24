@@ -25,7 +25,7 @@ func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// repo থেকে fruit আনো
-	fruit, err := h.fruitsRepo.Get(id)
+	fruit, err := h.svc.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruit")
 		return

@@ -2,26 +2,14 @@ package repo
 
 import (
 	"database/sql"
+	"fruits-api/domain"
+	"fruits-api/fruits"
 
 	"github.com/jmoiron/sqlx"
 )
 
-type Fruits struct {
-	ID          int     `db:"id" json:"id"`
-	Name        string  `db:"name" json:"name"`
-	Color       string  `db:"color" json:"color"`
-	Image       string  `db:"image" json:"image"`
-	Quantity    int     `db:"quantity" json:"quantity"`
-	Price       float64 `db:"price" json:"price"`
-	Description string  `db:"description" json:"description"`
-}
-
 type FruitsRepo interface {
-	Create(f Fruits) (*Fruits, error)
-	Get(fruitId int) (*Fruits, error)
-	List() ([]*Fruits, error)
-	Update(f Fruits) (*Fruits, error)
-	Delete(fruitId int) error
+	fruits.FruitsRepo
 }
 
 type fruitsRepo struct {
@@ -33,7 +21,7 @@ func NewFruitsRepo(db *sqlx.DB) FruitsRepo {
 }
 
 // Create fruit
-func (r *fruitsRepo) Create(f Fruits) (*Fruits, error) {
+func (r *fruitsRepo) Create(f domain.Fruits) (*domain.Fruits, error) {
 	query := `
 		INSERT INTO fruits (name, color, image, quantity, price, description)
 		VALUES ($1, $2, $3, $4, $5, $6)
@@ -58,8 +46,8 @@ func (r *fruitsRepo) Create(f Fruits) (*Fruits, error) {
 }
 
 // Get fruit by id
-func (r *fruitsRepo) Get(fruitId int) (*Fruits, error) {
-	var f Fruits
+func (r *fruitsRepo) Get(fruitId int) (*domain.Fruits, error) {
+	var f domain.Fruits
 	query := `
 		SELECT id, name, color, image, quantity, price, description
 		FROM fruits
@@ -76,8 +64,8 @@ func (r *fruitsRepo) Get(fruitId int) (*Fruits, error) {
 }
 
 // List all fruits
-func (r *fruitsRepo) List() ([]*Fruits, error) {
-	var fruits []*Fruits
+func (r *fruitsRepo) List() ([]*domain.Fruits, error) {
+	var fruits []*domain.Fruits
 	query := `
 		SELECT id, name, color, image, quantity, price, description
 		FROM fruits
@@ -91,7 +79,7 @@ func (r *fruitsRepo) List() ([]*Fruits, error) {
 }
 
 // Update fruit
-func (r *fruitsRepo) Update(f Fruits) (*Fruits, error) {
+func (r *fruitsRepo) Update(f domain.Fruits) (*domain.Fruits, error) {
 	query := `
 		UPDATE fruits
 		SET name = :name,

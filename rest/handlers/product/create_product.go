@@ -2,7 +2,7 @@ package product
 
 import (
 	"encoding/json"
-	"fruits-api/repo"
+	"fruits-api/domain"
 	"fruits-api/utils"
 	"net/http"
 )
@@ -29,7 +29,7 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Repo struct বানানো
-	newFruit := repo.Fruits{
+	newFruit := domain.Fruits{
 		Name:        req.Name,
 		Color:       req.Color,
 		Image:       req.Image,
@@ -39,7 +39,7 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Repo এর Create method কল
-	createdFruit, err := h.fruitsRepo.Create(newFruit)
+	createdFruit, err := h.svc.Create(newFruit)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to create fruit")
 		return

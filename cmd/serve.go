@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"fruits-api/config"
+	"fruits-api/fruits"
 	"fruits-api/infra/db"
 	"fruits-api/repo"
 	"fruits-api/rest"
@@ -32,15 +33,18 @@ func Serve() {
 	userRepo := repo.NewUserRepo(dbCon)
 	fruitsRepo := repo.NewFruitsRepo(dbCon)
 
-	// domain
+	// domains
 	usrSvc := user.NewService(userRepo)
+	frtSvc := fruits.NewService(fruitsRepo)
 
+    // middleware
 	middlewares := middleware.NewMiddlewares(cfg)
 	
-	productHandler := prdHandler.NewHandler(middlewares, fruitsRepo)
+	// handlers
+	productHandler := prdHandler.NewHandler(middlewares, frtSvc)
 	userHandler := usrHandler.NewHandler(cfg, usrSvc)
-
+    
+	// start sever
 	server := rest.NewServer(cfg, userHandler, productHandler)
-   
 	server.Start()
 }

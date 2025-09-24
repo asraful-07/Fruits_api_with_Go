@@ -2,7 +2,7 @@ package product
 
 import (
 	"encoding/json"
-	"fruits-api/repo"
+	"fruits-api/domain"
 	"fruits-api/utils"
 	"net/http"
 	"strconv"
@@ -44,7 +44,7 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Repo struct বানানো
-	updatedFruit := repo.Fruits{
+	updatedFruit := domain.Fruits{
 		ID:          id,
 		Name:        req.Name,
 		Color:       req.Color,
@@ -55,7 +55,7 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Repo update call
-	fruit, err := h.fruitsRepo.Update(updatedFruit)
+	fruit, err := h.svc.Update(updatedFruit)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError,"Failed to update fruit")
 		return
