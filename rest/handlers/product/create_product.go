@@ -28,7 +28,7 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Repo struct বানানো
+	// Repo struct create 
 	newFruit := domain.Fruits{
 		Name:        req.Name,
 		Color:       req.Color,
@@ -38,7 +38,7 @@ func (h *Handler) CreateFruits(w http.ResponseWriter, r *http.Request) {
 		Description: req.Description,
 	}
 
-	// Repo এর Create method কল
+	// Service → Repo → DB clean architecture maintain
 	createdFruit, err := h.svc.Create(newFruit)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to create fruit")

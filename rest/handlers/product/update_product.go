@@ -22,7 +22,7 @@ type ReqUpdateFruits struct {
 func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// URL থেকে id পড়া
+	// URLto id read
 	idStr := r.PathValue("id")
 	if idStr == "" {
 		utils.SendError(w, http.StatusBadRequest, "Missing id parameter")
@@ -43,7 +43,7 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Repo struct বানানো
+	// Repo struct create
 	updatedFruit := domain.Fruits{
 		ID:          id,
 		Name:        req.Name,
@@ -54,7 +54,7 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 		Description: req.Description,
 	}
 
-	// Repo update call
+	// Service → Repo → DB clean architecture maintain  update
 	fruit, err := h.svc.Update(updatedFruit)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError,"Failed to update fruit")
@@ -68,5 +68,4 @@ func (h *Handler) GetByUpdate(w http.ResponseWriter, r *http.Request) {
 
 	// JSON encode response
 	utils.SendData(w, "Successfully updated data", http.StatusOK)
-	
 }

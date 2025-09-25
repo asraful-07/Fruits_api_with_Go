@@ -9,7 +9,7 @@ import (
 func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// repo থেকে list আনা
+	// Service → Repo → DB clean architecture maintain 
 	fruits, err := h.svc.List()
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
@@ -18,5 +18,4 @@ func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 
 	
 	utils.SendData(w, fruits, http.StatusOK)
-	
 }

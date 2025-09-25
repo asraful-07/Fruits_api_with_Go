@@ -10,7 +10,7 @@ import (
 func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// URL থেকে id পড়া
+	// URL to id  read
 	idStr := r.PathValue("id")
 	if idStr == "" {
 		utils.SendError(w, http.StatusBadRequest, "Missing id parameter")
@@ -24,7 +24,7 @@ func (h *Handler) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// repo থেকে fruit আনো
+	// Service → Repo → DB clean architecture maintain 
 	fruit, err := h.svc.Get(id)
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruit")

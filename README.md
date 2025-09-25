@@ -48,16 +48,27 @@ go get github.com/rubenv/sql-migrate/...
 
 go run main.go
 
-fruits-api/
-│── config/       # Database & environment config
-│── db/           # Migration files
-│── repo/         # Repository layer
-│── user/         # User handler
-│── fruits/       # Fruits handler
-│── utils/        # Helpers
-│── main.go       # Entry point
-│── go.mod
-│── go.sum
-│── .env
-│── README.md
+domain/
+   fruits.go
+   user.go
+   order.go
+   favorite.go
+order/
+   service.go
+   port.go
+favorite/
+   service.go
+   port.go
+repo/
+   fruits.go
+   user.go
+   order.go
+   favorite.go
+rest/
+   handlers/
+      product/
+      user/
+      order/
+      favorite/
+
 ```
