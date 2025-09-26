@@ -60,3 +60,26 @@ func (r *userRepo) Find(email, pass string) (*domain.User, error) {
 	}
 	return &user, nil
 }
+
+func (r *userRepo) List() ([]* domain.User, error)  {
+	var users []*domain.User
+	query := `
+	SELECT id, full_name, email, password, is_shope_owner
+	FROM users
+	ORDER BY id 
+	`
+
+	err := r.db.Select(&users, query)
+
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+
+func (r *userRepo) Delete(id int) error {
+	query := `DELETE FROM users WHERE id = $1`
+	_, err := r.db.Exec(query)
+	return err
+}

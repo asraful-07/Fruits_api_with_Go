@@ -39,3 +39,11 @@ func (svc *service) Find(email, pass string) (*domain.User, error) {
 
 	return usr, nil
 }
+
+func (svc service) List() ([]*domain.User, error) {
+	return  svc.usrRepo.List()
+}
+
+func (svc service) Delete(id int) error {
+	return  svc.usrRepo.Delete(id)
+}

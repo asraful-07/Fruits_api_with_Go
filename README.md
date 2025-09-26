@@ -48,6 +48,7 @@ go get github.com/rubenv/sql-migrate/...
 
 go run main.go
 
+
 domain/
    fruits.go
    user.go
