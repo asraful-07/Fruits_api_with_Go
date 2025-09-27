@@ -16,6 +16,7 @@ type fruitsRepo struct {
 	db *sqlx.DB
 }
 
+// constructor function
 func NewFruitsRepo(db *sqlx.DB) FruitsRepo {
 	return &fruitsRepo{db: db}
 }

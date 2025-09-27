@@ -28,7 +28,7 @@ func NewServer(cfg *config.Config, userHandler *user.Handler, productHandler *pr
 func (server *Server) Start() {
 	mux := http.NewServeMux()
 
-	// Manager বানানো
+	// Manager create
 	manager := middleware.NewManager()
 
 	// Global Middleware
@@ -38,14 +38,15 @@ func (server *Server) Start() {
 		middleware.Logger,
 	)
 
-	// Route registration আলাদা ফাইল থেকে
+	// Route registration 
 	server.productHandler.RegisterRoutes(mux, manager)
 	server.userHandler.RegisterUserRoutes(mux, manager)
 
 	// Middleware wrap
 	wrappedMux := manager.WrapMux(mux)
 
-	addr := ":" + strconv.Itoa(int(server.cfg.HttpPort)) //type casting (inter to string)
+	//type casting (inter to string)
+	addr := ":" + strconv.Itoa(int(server.cfg.HttpPort)) 
 
 	fmt.Println("Server running on http://localhost" + addr)
 	log.Fatal(http.ListenAndServe(addr, wrappedMux))
