@@ -12,7 +12,7 @@ type Service interface {
 type FruitsRepo interface {
 	Create(f domain.Fruits) (*domain.Fruits, error)
 	Get(fruitId int) (*domain.Fruits, error)
-	List() ([]*domain.Fruits, error)
+	List(page, limit int64) ([]*domain.Fruits, error)
 	Update(f domain.Fruits) (*domain.Fruits, error)
 	Delete(fruitId int) error
 }

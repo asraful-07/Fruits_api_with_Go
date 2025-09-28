@@ -46,6 +46,8 @@ go get github.com/golang-migrate/migrate/v4
 # Alternative (optional)
 go get github.com/rubenv/sql-migrate/...
 
+go get github.com/rakyll/hey/requester
+
 go run main.go
 
 

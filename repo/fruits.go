@@ -65,14 +65,18 @@ func (r *fruitsRepo) Get(fruitId int) (*domain.Fruits, error) {
 }
 
 // List all fruits
-func (r *fruitsRepo) List() ([]*domain.Fruits, error) {
+func (r *fruitsRepo) List(page, limit int64) ([]*domain.Fruits, error) {
 	var fruits []*domain.Fruits
+
+	offset := (page - 1) * limit
+
 	query := `
 		SELECT id, name, color, image, quantity, price, description
 		FROM fruits
 		ORDER BY id
+		LIMIT $1 OFFSET $2
 	`
-	err := r.db.Select(&fruits, query)
+	err := r.db.Select(&fruits, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}

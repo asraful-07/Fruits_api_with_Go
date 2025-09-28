@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// RegisterRoutes সব route এখানে সেট হবে
+// RegisterRoutes all route
 func (h *Handler) RegisterRoutes(mux *http.ServeMux, manager *middleware.Manager) {
 	mux.Handle("GET /fruits", manager.With(http.HandlerFunc(h.GetFruits)))
 	mux.Handle("POST /fruits", manager.With(http.HandlerFunc(h.CreateFruits), h.middlewares.Authenticate))

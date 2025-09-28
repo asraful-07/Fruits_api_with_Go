@@ -20,8 +20,8 @@ func (svc service) Get(id int) (*domain.Fruits, error) {
 	return svc.fruitsRepo.Get(id)
 }
 
-func (svc service) List() ([]*domain.Fruits, error) {
-	return  svc.fruitsRepo.List()
+func (svc service) List(page, limit int64) ([]*domain.Fruits, error) {
+	return  svc.fruitsRepo.List(page, limit)
 }
 
 func (svc service) Update(fruit domain.Fruits) (*domain.Fruits, error) {
