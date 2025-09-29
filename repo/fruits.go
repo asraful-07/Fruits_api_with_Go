@@ -83,6 +83,20 @@ func (r *fruitsRepo) List(page, limit int64) ([]*domain.Fruits, error) {
 	return fruits, nil
 }
 
+func (r *fruitsRepo) Count() (int64, error) {
+	query := `
+	SELECT COUNT(*)
+	FROM fruits
+	`
+
+	var count int 
+	err := r.db.QueryRow(query).Scan(&count) 
+	if err != nil {
+		return 0, err
+	}
+	return int64(count), nil
+}
+
 // Update fruit
 func (r *fruitsRepo) Update(f domain.Fruits) (*domain.Fruits, error) {
 	query := `

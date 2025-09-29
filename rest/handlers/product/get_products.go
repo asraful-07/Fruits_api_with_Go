@@ -1,7 +1,6 @@
 package product
 
 import (
-	// "fruits-api/domain"
 	"fruits-api/utils"
 	"net/http"
 	"strconv"
@@ -34,5 +33,11 @@ func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.SendData(w, fruits, http.StatusOK)
+	ctn, err := h.svc.Count()
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
+		return
+	}
+
+	utils.SendPage(w, fruits, int64(page), int64(limit), ctn)
 }

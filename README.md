@@ -74,4 +74,71 @@ rest/
       order/
       favorite/
 
+
+📦 fruits-api
+├── 📂 cmd/
+│   └── serve.go
+│
+├── 📂 config/
+│   └── config.go
+│
+├── 📂 domain/
+│   ├── user.go
+│   └── product.go
+│
+├── 📂 product/
+│   ├── port.go
+│   └── service.go
+│
+├── 📂 infra/
+│   └── 📂 db/
+│       ├── connection.go
+│       └── migrate.go
+│
+├── 📂 migrations/
+│   ├── 000001-create-users.up.sql
+│   ├── 000001-create-users.down.sql
+│   ├── 000002-create-fruits.up.sql
+│   └── 000002-create-fruits.down.sql
+│
+├── 📂 repo/
+│   ├── product.go
+│   └── user.go
+│
+├── 📂 rest/
+│   └── 📂 handlers/
+│       ├── 📂 product/
+│       │   ├── create.go
+│       │   ├── get.go
+│       │   ├── update.go
+│       │   ├── delete.go
+│       │   ├── routes.go
+│       │   ├── handler.go
+│       │   └── port.go
+│       │
+│       ├── 📂 user/
+│       │   ├── create.go
+│       │   ├── get.go
+│       │   ├── routes.go
+│       │   ├── handler.go
+│       │   └── port.go
+│       │
+│       └── 📂 middleware/
+│           ├── jwt.go
+│           ├── cors.go
+│           ├── logger.go
+│           └── manager.go
+│
+├── server.go
+├── 📂 utils/
+│   ├── send.go
+│   └── jwt.go
+│
+├── .env
+├── .gitignore
+├── go.mod
+├── go.sum
+├── main.go
+└── README.md
+
 ```

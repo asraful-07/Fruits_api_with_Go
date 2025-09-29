@@ -24,6 +24,10 @@ func (svc service) List(page, limit int64) ([]*domain.Fruits, error) {
 	return  svc.fruitsRepo.List(page, limit)
 }
 
+func (svc service) Count() (int64, error)  {
+	return  svc.fruitsRepo.Count()
+}
+
 func (svc service) Update(fruit domain.Fruits) (*domain.Fruits, error) {
 	return svc.fruitsRepo.Update(fruit)
 }

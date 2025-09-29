@@ -6,6 +6,7 @@ type Service interface {
 	Create(fruit domain.Fruits) (*domain.Fruits, error)
 	Get(id int) (*domain.Fruits, error)
 	List(page, limit int64) ([]*domain.Fruits, error)
+	Count() (int64, error)
 	Update(domain.Fruits) (*domain.Fruits, error)
 	Delete(id int) error
 }
