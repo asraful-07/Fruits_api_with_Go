@@ -1,10 +1,14 @@
 package product
 
 import (
+	"fmt"
 	"fruits-api/utils"
 	"net/http"
 	"strconv"
+	"sync"
 )
+
+var ctn int64
 
 // Get all fruits
 func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
@@ -33,11 +37,43 @@ func (h *Handler) GetFruits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctn, err := h.svc.Count()
+	var wg sync.WaitGroup
+
+    wg.Add(1)
+	go func () {
+	defer wg.Done()
+		ctn1, err := h.svc.Count()
 	if err != nil {
 		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
 		return
 	}
+	 ctn = ctn1
+	}()
+
+    wg.Add(1)
+	go func () {
+	defer wg.Done()
+		ctn2, err := h.svc.Count()
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
+		return
+	}
+	fmt.Println(ctn2)
+	}()
+
+    wg.Add(1)
+	go func () {
+	defer wg.Done()
+		ctn3, err := h.svc.Count()
+	if err != nil {
+		utils.SendError(w, http.StatusInternalServerError, "Failed to fetch fruits list")
+		return
+	}
+	fmt.Println(ctn3)
+	}()
+
+	// time.Sleep(8 * time.Second)
+	wg.Wait()
 
 	utils.SendPage(w, fruits, int64(page), int64(limit), ctn)
 }

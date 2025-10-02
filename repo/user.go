@@ -77,7 +77,6 @@ func (r *userRepo) List() ([]* domain.User, error)  {
 	return users, nil
 }
 
-
 func (r *userRepo) Delete(id int) error {
 	query := `DELETE FROM users WHERE id = $1`
 	_, err := r.db.Exec(query)
