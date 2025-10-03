@@ -50,31 +50,6 @@ go get github.com/rakyll/hey/requester
 
 go run main.go
 
-
-domain/
-   fruits.go
-   user.go
-   order.go
-   favorite.go
-order/
-   service.go
-   port.go
-favorite/
-   service.go
-   port.go
-repo/
-   fruits.go
-   user.go
-   order.go
-   favorite.go
-rest/
-   handlers/
-      product/
-      user/
-      order/
-      favorite/
-
-
 📦 fruits-api
 ├── 📂 cmd/
 │   └── serve.go
