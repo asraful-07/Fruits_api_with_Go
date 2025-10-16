@@ -48,6 +48,7 @@ func (mngr *Manager) WrapMux(handler http.Handler) http.Handler {
 
 
 /*
+
 return mngr.WrapMux(h)
 
 // --- Local middleware wrap (reverse with range) ---
@@ -59,4 +60,5 @@ return mngr.WrapMux(h)
 	for i := len(mngr.globalMiddlewares) - 1; i >= 0; i-- {
 		h = mngr.globalMiddlewares[i](h)
 	}
+		
 */
